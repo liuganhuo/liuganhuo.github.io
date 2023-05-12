@@ -1,0 +1,163 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="theme-color" content="#6200ee"><meta name="author" content="null"><meta name="copyright"><meta name="generator" content="Hexo 5.4.2"><meta name="theme" content="hexo-theme-yun"><title>test | 刘干活's bbblog</title><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@900&amp;display=swap" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://fastly.jsdelivr.net/npm/star-markdown-css@0.4.1/dist/yun/yun-markdown.min.css"><link rel="stylesheet" href="https://fastly.jsdelivr.net/npm/prism-theme-vars/base.css"><script src="https://fastly.jsdelivr.net/npm/scrollreveal/dist/scrollreveal.min.js" defer></script><script>function initScrollReveal() {
+  [".post-card",".markdown-body img"].forEach((target)=> {
+    ScrollReveal().reveal(target);
+  })
+}
+document.addEventListener("DOMContentLoaded", initScrollReveal);
+document.addEventListener("pjax:success", initScrollReveal);
+</script><link rel="icon" type="image/png" href="/images/favicon.ico"><link rel="mask-icon" href="/images/favicon.ico" color="#6200ee"><link rel="preload" href="/css/hexo-theme-yun.css" as="style"><link rel="prefetch" href="/js/sidebar.js" as="script"><link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin><link rel="preconnect" href="https://fastly.jsdelivr.net/npm/" crossorigin><script id="yun-config">
+    window.Yun = {}
+    window.CONFIG = {"hostname":"liuganhuo.github.io","root":"/","title":["什么","是","刘","干","活"],"version":"1.10.9","mode":"auto","copycode":true,"page":{"isPost":true},"i18n":{"placeholder":"搜索...","empty":"找不到您查询的内容: ${query}","hits":"找到 ${hits} 条结果","hits_time":"找到 ${hits} 条结果（用时 ${time} 毫秒）"},"anonymous_image":"https://cdn.yunyoujun.cn/img/avatar/none.jpg","say":{"api":"/data/sentences.json"},"local_search":{"path":"/search.xml"},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"fireworks":{"colors":null},"vendors":{"host":"https://fastly.jsdelivr.net/npm/","darken":"https://fastly.jsdelivr.net/npm/darken@1.5.0"}};
+  </script><link rel="stylesheet" href="/css/hexo-theme-yun.css"><script src="/js/hexo-theme-yun.js" type="module"></script><meta name="description" content="&amp;#x6982;&amp;#x8FF0;&amp;#x516D;&amp;#x5927;&amp;#x7EC4;&amp;#x4EF6;&amp;#x5148;&amp;#x4ECE;&amp;#x5BB9;&amp;#x5668;&amp;#x770B;&amp;#x8D77;  array&amp;#xFF1A;&amp;#x786E;&amp;#x5B9A;&amp;#x5206;&amp;#x914D;&amp;#x5927;&amp;#x5C0F;&amp;#x7684;&amp;#x5BB9;&amp;#x5668; vector&amp;#xFF1A;&amp;#">
+<meta property="og:type" content="article">
+<meta property="og:title" content="test">
+<meta property="og:url" content="https://liuganhuo.github.io/2023/05/11/%E6%A6%82%E8%BF%B0STL%E5%85%AD%E5%A4%A7%E7%BB%84%E4%BB%B6/index.html">
+<meta property="og:site_name" content="刘干活&#39;s bbblog">
+<meta property="og:description" content="&amp;#x6982;&amp;#x8FF0;&amp;#x516D;&amp;#x5927;&amp;#x7EC4;&amp;#x4EF6;&amp;#x5148;&amp;#x4ECE;&amp;#x5BB9;&amp;#x5668;&amp;#x770B;&amp;#x8D77;  array&amp;#xFF1A;&amp;#x786E;&amp;#x5B9A;&amp;#x5206;&amp;#x914D;&amp;#x5927;&amp;#x5C0F;&amp;#x7684;&amp;#x5BB9;&amp;#x5668; vector&amp;#xFF1A;&amp;#">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2023-05-11T08:00:15.000Z">
+<meta property="article:modified_time" content="2023-05-12T06:37:50.945Z">
+<meta property="article:tag" content="STL">
+<meta name="twitter:card" content="summary"><script>(function() {
+  if (CONFIG.mode !== 'auto') return
+  const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
+  const setting = localStorage.getItem('darken-mode') || 'auto'
+  if (setting === 'dark' || (prefersDark && setting !== 'light'))
+    document.documentElement.classList.toggle('dark', true)
+})()</script></head><body><script src="https://code.iconify.design/2/2.1.1/iconify.min.js"></script><script>// Define global variable
+IconifyProviders = {
+  // Empty prefix: overwrite default API provider configuration
+  '': {
+    // Use custom API first, use Iconify public API as backup
+    resources: [
+        'https://api.iconify.design',
+    ],
+    // Wait for 1 second before switching API hosts
+    rotate: 1000,
+  },
+};</script><script defer src="https://fastly.jsdelivr.net/npm/animejs@latest"></script><script defer src="/js/ui/fireworks.js" type="module"></script><canvas class="fireworks"></canvas><div class="container"><a class="sidebar-toggle hty-icon-button" id="menu-btn"><div class="hamburger hamburger--spin" type="button"><span class="hamburger-box"><span class="hamburger-inner"></span></span></div></a><div class="sidebar-toggle sidebar-overlay"></div><aside class="sidebar"><script src="/js/sidebar.js" type="module"></script><ul class="sidebar-nav"><li class="sidebar-nav-item sidebar-nav-toc hty-icon-button sidebar-nav-active" data-target="post-toc-wrap" title="文章目录"><span class="icon iconify" data-icon="ri:list-ordered"></span></li><li class="sidebar-nav-item sidebar-nav-overview hty-icon-button" data-target="site-overview-wrap" title="站点概览"><span class="icon iconify" data-icon="ri:passport-line"></span></li></ul><div class="sidebar-panel" id="site-overview-wrap"><div class="site-info fix-top"><a class="site-author-avatar" href="/about/"><img width="96" loading="lazy" src="/images/cattt.jpg"><span class="site-author-status" title="刘干活"></span></a><div class="site-author-name"><a href="/about/"></a></div><span class="site-name">刘干活's bbblog</span><sub class="site-subtitle"></sub><div class="site-description"></div></div><nav class="site-state"><a class="site-state-item hty-icon-button icon-home" href="/" title="首页"><span class="site-state-item-icon"><span class="icon iconify" data-icon="ri:home-4-line"></span></span></a><div class="site-state-item"><a href="/archives/" title="归档"><span class="site-state-item-icon"><span class="icon iconify" data-icon="ri:archive-line"></span></span><span class="site-state-item-count">13</span></a></div><div class="site-state-item"><a href="/category/"><span class="site-state-item-icon"><span class="icon iconify" data-icon="ri:folder-2-line"></span></span></a></div><div class="site-state-item"><a href="/tags/" title="标签"><span class="site-state-item-icon"><span class="icon iconify" data-icon="ri:price-tag-3-line"></span></span><span class="site-state-item-count">6</span></a></div><a class="site-state-item hty-icon-button" target="_blank" rel="noopener" href="https://yun.yunyoujun.cn" title="文档"><span class="site-state-item-icon"><span class="icon iconify" data-icon="ri:settings-line"></span></span></a></nav><hr style="margin-bottom:0.5rem"><hr style="margin:0.5rem 1rem"><div class="links"><a class="links-item hty-icon-button" href="/links/" title="我的小伙伴们" style="color:dodgerblue"><span class="icon iconify" data-icon="ri:genderless-line"></span></a></div><br><a class="links-item hty-icon-button" id="toggle-mode-btn" href="javascript:;" title="Mode" style="color: #f1cb64"><span class="icon iconify" data-icon="ri:contrast-2-line"></span></a></div><div class="sidebar-panel sidebar-panel-active" id="post-toc-wrap"><div class="post-toc"><div class="post-toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%A6%82%E8%BF%B0%E5%85%AD%E5%A4%A7%E7%BB%84%E4%BB%B6"><span class="toc-number">1.</span> <span class="toc-text">概述六大组件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#LiteGNUStl%E7%BB%93%E6%9E%84"><span class="toc-number">2.</span> <span class="toc-text">LiteGNUStl结构</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%96%87%E4%BB%B6%EF%BC%88%E5%B7%B2%E5%AE%9E%E7%8E%B0%E9%83%A8%E5%88%86%EF%BC%89%E5%88%86%E5%B8%83"><span class="toc-number">2.0.1.</span> <span class="toc-text">文件（已实现部分）分布</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%B7%A5%E5%85%B7%EF%BC%9Amemory-h"><span class="toc-number">2.0.1.1.</span> <span class="toc-text">工具：memory.h</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#TODO-list-h-vector-h-type-traits-h-memory-h-iterator-h-functional-h"><span class="toc-number">2.0.1.2.</span> <span class="toc-text">TODO: list.h  vector.h  type_traits.h    memory.h    iterator.h    functional.h</span></a></li></ol></li></ol></li></ol></li></ol></div></div></div></aside><main class="sidebar-translate" id="content"><div id="post"><article class="hty-card post-block" itemscope itemtype="https://schema.org/Article" style="--smc-primary:#6200ee;"><link itemprop="mainEntityOfPage" href="https://liuganhuo.github.io/2023/05/11/%E6%A6%82%E8%BF%B0STL%E5%85%AD%E5%A4%A7%E7%BB%84%E4%BB%B6/"><span hidden itemprop="author" itemscope itemtype="https://schema.org/Person"><meta itemprop="name" content="null"><meta itemprop="description"></span><span hidden itemprop="publisher" itemscope itemtype="https://schema.org/Organization"><meta itemprop="name" content="刘干活's bbblog"></span><header class="post-header"><h1 class="post-title" itemprop="name headline">test</h1><div class="post-meta"><div class="post-time"><span class="post-meta-item-icon"><span class="icon iconify" data-icon="ri:calendar-line"></span></span> <time title="创建时间：2023-05-11 16:00:15" itemprop="dateCreated datePublished" datetime="2023-05-11T16:00:15+08:00">2023-05-11</time><span class="post-meta-divider">-</span><span class="post-meta-item-icon"><span class="icon iconify" data-icon="ri:calendar-2-line"></span></span> <time title="修改时间：2023-05-12 14:37:50" itemprop="dateModified" datetime="2023-05-12T14:37:50+08:00">2023-05-12</time></div><div class="post-classify"><span class="post-category"> <span class="post-meta-item-icon" style="margin-right:3px;"><span class="icon iconify" data-icon="ri:folder-line"></span></span><span itemprop="about" itemscope itemtype="https://schema.org/Thing"><a class="category-item" href="/category/STL/" style="--text-color:dimgray" itemprop="url" rel="index"><span itemprop="text">STL</span></a></span></span><span class="post-tag"><span class="post-meta-divider">-</span><a class="tag-item" href="/tags/STL/" style="--text-color:#61dafb"><span class="post-meta-item-icon"><span class="icon iconify" data-icon="ri:price-tag-3-line"></span></span><span class="tag-name">STL</span></a></span></div></div></header><section class="post-body" itemprop="articleBody"><div class="post-content markdown-body"><h2 id="&#x6982;&#x8FF0;&#x516D;&#x5927;&#x7EC4;&#x4EF6;"><a href="#&#x6982;&#x8FF0;&#x516D;&#x5927;&#x7EC4;&#x4EF6;" class="headerlink" title="&#x6982;&#x8FF0;&#x516D;&#x5927;&#x7EC4;&#x4EF6;"></a>&#x6982;&#x8FF0;&#x516D;&#x5927;&#x7EC4;&#x4EF6;</h2><p>&#x5148;&#x4ECE;<strong>&#x5BB9;&#x5668;</strong>&#x770B;&#x8D77;</p>
+<ul>
+<li><code>array</code>&#xFF1A;&#x786E;&#x5B9A;&#x5206;&#x914D;&#x5927;&#x5C0F;&#x7684;&#x5BB9;&#x5668;</li>
+<li><code>vector</code>&#xFF1A;&#x672B;&#x5C3E;&#x5F00;&#xFF0C;&#x5373;&#x53EF;&#x4EE5;&#x4ECE;&#x672B;&#x5C3E;&#x589E;&#x957F;&#x7684;&#x5BB9;&#x5668;</li>
+<li><code>deque</code>&#xFF1A;&#x4E24;&#x7AEF;&#x5F00;&#x53E3;&#x7684;&#x5BB9;&#x5668;&#xFF0C;&#x5B9E;&#x9645;&#x5B9E;&#x73B0;&#x901A;&#x8FC7;&#x591A;&#x7EC4;&#x957F;&#x5EA6;&#x76F8;&#x540C;&#x7684;&#x8FDE;&#x7EED;&#x7A7A;&#x95F4;&#xFF0C;&#x901A;&#x8FC7;&#x6307;&#x9488;&#x7A7F;&#x8D77;&#x6765;&#x3002;&#x4F46;&#x662F;&#x5C06;&#x884C;&#x4E3A;&#x6A21;&#x62DF;&#x5730;&#x50CF;&#x8FDE;&#x7EED;&#x7A7A;&#x95F4;&#x4E00;&#x6837;&#xFF0C;&#x5E76;&#x5728;deque&#x57FA;&#x7840;&#x4E0A;&#x9002;&#x914D;&#x4E86;&#x53E6;&#x5916;&#x4E24;&#x79CD;&#x5BB9;&#x5668;<ul>
+<li><code>stack</code>&#xFF1A;&#x6808;&#xFF0C;&#x5BF9;deque&#x8FDB;&#x884C;&#x5C01;&#x88C5;</li>
+<li><code>queue</code>&#xFF1A;&#x961F;&#x5217;&#xFF0C;&#x540C;&#x6837;&#x8FDB;&#x884C;&#x5C01;&#x88C5;</li>
+</ul>
+</li>
+<li><code>list</code>&#x4EE5;&#x53CA;<code>forward-list</code> </li>
+<li><code>rb-tree</code>&#xFF1A;&#x5728;&#x6B64;&#x57FA;&#x7840;&#x4E0A;&#x9002;&#x914D;&#x4E86;&#x4E24;&#x79CD;&#x5BB9;&#x5668;<ul>
+<li><code>set</code></li>
+<li><code>map</code></li>
+</ul>
+</li>
+<li><code>hashtable</code>&#xFF1A;&#x6563;&#x5217;&#x8868;&#x901A;&#x8FC7;&#x8FDE;&#x7EED;&#x7A7A;&#x95F4;+&#x5217;&#x8868;&#x7684;&#x65B9;&#x5F0F;&#x8FDB;&#x884C;&#xFF0C;&#x6BCF;&#x5F53;&#x5143;&#x7D20;&#x5404;&#x5904;&#x8D85;&#x51FA;&#x5217;&#x8868;&#x957F;&#x5EA6;&#x65F6;&#xFF0C;&#x8FDB;&#x884C;&#x6269;&#x5BB9;&#x5728;&#x6B64;&#x57FA;&#x7840;&#x4E0A;&#x9002;&#x914D;&#x4E86;&#x4E24;&#x79CD;&#x5BB9;&#x5668;<ul>
+<li><code>unordered-set</code></li>
+<li><code>unordered-map</code></li>
+</ul>
+</li>
+</ul>
+<p>&#x63A5;&#x4E0B;&#x6765;&#x662F;<strong>&#x7B97;&#x6CD5;</strong>&#xFF0C;&#x5728;STL&#x7684;&#x8BBE;&#x8BA1;&#x4E0A;&#xFF0C;<strong>&#x7B97;&#x6CD5;</strong>&#x4E0E;<strong>&#x5BB9;&#x5668;</strong>&#x90FD;&#x662F;<strong>&#x95ED;&#x95E8;&#x9020;&#x8F66;</strong>&#x7684;&#xFF0C;&#x4E8C;&#x8005;&#x4E4B;&#x95F4;&#x6CA1;&#x6709;&#x4EFB;&#x4F55;&#x4EA4;&#x6D41;&#xFF0C;&#x4E3A;&#x4E86;&#x80FD;&#x8BA9;&#x4E0D;&#x540C;&#x7684;&#x5BB9;&#x5668;&#x5728;&#x4E0D;&#x540C;&#x7684;&#x7B97;&#x6CD5;&#x4E0A;&#x90FD;&#x53EF;&#x4EE5;&#x6B63;&#x5E38;&#x8FD0;&#x884C;&#xFF0C;&#x9700;&#x8981;&#x4E00;&#x5EA7;&#x6865;&#x2014;&#x2014;&#x2014;&#x2014;<strong>&#x8FED;&#x4EE3;&#x5668;</strong></p>
+<p>&#x4E3A;&#x4E86;&#x8BA9;<strong>&#x7B97;&#x6CD5;</strong>&#x66F4;&#x597D;&#x5730;&#x5BF9;<strong>&#x5BB9;&#x5668;</strong>&#x64CD;&#x4F5C;&#xFF0C;&#x5E76;&#x80FD;&#x591F;&#x666E;&#x9002;&#xFF0C;&#x7531;<strong>&#x5BB9;&#x5668;</strong>&#x81EA;&#x7136;&#x60F3;&#x5230;&#x4E86;<strong>&#x8FED;&#x4EE3;&#x5668;</strong></p>
+<p>&#x6839;&#x636E;<strong>&#x5BB9;&#x5668;</strong>&#x7C7B;&#x578B;&#x4E0D;&#x540C;&#xFF0C;&#x6709;&#x4E0D;&#x540C;&#x7C7B;&#x578B;&#x7684;<strong>&#x8FED;&#x4EE3;&#x5668;</strong>&#xFF0C;&#x5927;&#x81F4;&#x5206;&#x4E3A;&#x4E94;&#x79CD;</p>
+<ul>
+<li><code>output-iterator</code></li>
+<li><code>input-iterator</code></li>
+<li><code>forward-iterator</code>&#xFF1A;&#x7EE7;&#x627F;&#x4E86;(is a) input-iterator</li>
+<li><code>bi-iterator </code>&#xFF1A;&#x7EE7;&#x627F;&#x4E86;(is a) forward-iterator</li>
+<li><code>randomaccess-iterator</code>&#xFF1A;&#x7EE7;&#x627F;&#x4E86;(is a)bi-iterator</li>
+</ul>
+<p>&#x6709;&#x4E86;<strong>&#x8FED;&#x4EE3;&#x5668;</strong>&#xFF0C;&#x4F3C;&#x4E4E;&#x8FD8;&#x662F;&#x4E0D;&#x591F;&#x7684;&#xFF0C;&#x5F53;<strong>&#x7B97;&#x6CD5;</strong>&#x5BF9;<strong>&#x5BB9;&#x5668;</strong>&#x8FDB;&#x884C;&#x64CD;&#x4F5C;&#x65F6;&#xFF0C;<strong>&#x7B97;&#x6CD5;</strong>&#x53EF;&#x80FD;&#x60F3;&#x53BB;&#x5411;<strong>&#x5BB9;&#x5668;</strong>&#x786E;&#x8BA4;&#xFF1A;&#x503C;&#x7684;&#x7C7B;&#x578B;&#xFF1F;&#x8FED;&#x4EE3;&#x5668;&#x7C7B;&#x578B;&#xFF1F;&#x7B49;&#x3002;&#x56E0;&#x6B64;&#x4E3A;&#x4E86;&#x4FBF;&#x5229;&#x5730;&#x7ED9;&#x51FA;&#x8FD9;&#x4E9B;&#x4FE1;&#x606F;&#xFF0C;&#x5C31;&#x6709;&#x4E86;<strong>&#x8403;&#x53D6;&#x5668;</strong>&#x3002;&#x540C;&#x6837;&#x6709;&#x4E94;&#x4E2A;&#x5185;&#x5BB9;</p>
+<ul>
+<li><code>iterator_category</code>&#xFF1A;&#x8FED;&#x4EE3;&#x5668;&#x7684;&#x7C7B;&#x578B;</li>
+<li><code>value_type&#xFF1A;&#x503C;&#x7684;&#x7C7B;&#x578B;</code></li>
+<li><code>difference_type</code>&#xFF1A;&#x8BA1;&#x7B97;&#x8DDD;&#x79BB;&#x957F;&#x5EA6;&#x7684;&#x5355;&#x4F4D;</li>
+<li><code>pointer</code>&#xFF1A;&#x6307;&#x9488;&#x7C7B;&#x578B;</li>
+<li><code>reference</code>&#xFF1A;&#x5F15;&#x7528;&#x7C7B;&#x578B;&#xFF0C;&#xFF08;&#x53EF;&#x80FD;&#x662F;&#x5728;&#x9700;&#x8981;&#x8FD4;&#x56DE;&#x5DE6;&#x503C;&#x65F6;&#xFF0C;&#x9700;&#x8981;&#x8FD4;&#x56DE;&#x8FD9;&#x4E2A;&#xFF09;</li>
+</ul>
+<p><strong>&#x8403;&#x53D6;&#x5668;</strong>&#x901A;&#x8FC7;&#x4E00;&#x7CFB;&#x5217;&#x7684;<code>&#x6CDB;&#x5316;</code>&#x4E0E;<code>&#x504F;&#x7279;&#x5316;</code>&#x4F7F;&#x5F97;&#x5176;&#x9002;&#x5E94;&#x5404;&#x79CD;&#x7C7B;&#x578B;&#x7684;<strong>&#x8FED;&#x4EE3;&#x5668;</strong>&#x4E0E;<strong>&#x6307;&#x9488;</strong>(&#x8FED;&#x4EE3;&#x5668;&#x4E0D;&#x4E5F;&#x662F;&#x7279;&#x6B8A;&#x7684;&#x6307;&#x9488;)&#x3002;</p>
+<p>&#x4E0A;&#x9762;&#x8FD9;&#x4E9B;&#x90FD;&#x662F;&#x57FA;&#x4E8E;&#x5DF2;&#x6709;&#x7684;&#x5185;&#x5BB9;&#x8FDB;&#x884C;&#x64CD;&#x4F5C;&#xFF0C;&#x73B0;&#x5728;&#x8981;&#x8003;&#x8651;&#x5BB9;&#x5668;&#x521D;&#x59CB;&#x7684;&#x5206;&#x914D;&#x95EE;&#x9898;&#xFF0C;&#x5219;&#x9700;&#x8981;&#x4E00;&#x4E2A;<strong>&#x5206;&#x914D;&#x5668;</strong>&#x6765;&#x8FDB;&#x884C;move&#x3001;copy&#x7B49;&#x64CD;&#x4F5C;&#xFF0C;&#x5BF9;&#x6570;&#x636E;&#x8FDB;&#x884C;&#x6574;&#x7406;&#x3002;&#x5728;<strong>&#x8FED;&#x4EE3;&#x5668;</strong>&#x7684;&#x521D;&#x59CB;&#x5316;&#x4E2D;&#x4E5F;&#x9ED8;&#x8BA4;&#x5305;&#x542B;&#x4E86;&#x4E00;&#x4E2A;alloca</p>
+<p>&#x5728;&#x8FD9;&#x4E9B;&#x90FD;&#x5177;&#x5907;&#x540E;&#xFF0C;&#x5DF2;&#x7ECF;&#x53EF;&#x4EE5;&#x8FDB;&#x884C;&#x4E00;&#x822C;&#x7684;&#x3001;&#x4E25;&#x683C;&#x7B26;&#x5408;&#x8F93;&#x5165;&#x7684;&#x6B63;&#x5E38;&#x64CD;&#x4F5C;&#x4E86;&#xFF0C;&#x4F46;&#x662F;&#x4E3A;&#x4E86;&#x63D0;&#x9AD8;&#x53EF;&#x62D3;&#x5C55;&#x884C;&#xFF0C;&#x8981;&#x4F7F;&#x7528;<strong>&#x9002;&#x914D;&#x5668;</strong>&#xFF0C;&#x4F7F;&#x5F97;&#x5404;&#x79CD;&#x4E0D;&#x540C;&#x7C7B;&#x578B;&#x3001;&#x6570;&#x76EE;&#x7684;&#x8F93;&#x5165;&#x90FD;&#x53EF;&#x4EE5;&#x6B63;&#x786E;&#x5730;&#x88AB;&#x7B97;&#x6CD5;&#x3001;&#x4EFF;&#x51FD;&#x6570;&#x7B49;&#x63A5;&#x6536;&#xFF0C;&#x6216;&#x8005;&#x5BF9;&#x5BB9;&#x5668;&#x7684;&#x64CD;&#x4F5C;&#x8FDB;&#x884C;&#x89C4;&#x5B9A;/&#x9650;&#x5236;&#xFF0C;&#x4F7F;&#x5176;&#x6210;&#x4E3A;&#x5E26;&#x6709;&#x65B0;&#x7279;&#x6027;&#x7684;&#x5BB9;&#x5668;&#xFF0C;<strong>&#x9002;&#x914D;&#x5668;</strong>&#x5206;&#x4E3A;&#x4E09;&#x7C7B;&#xFF1A;</p>
+<ul>
+<li><p><code>&#x5BB9;&#x5668;&#x9002;&#x914D;&#x5668;</code>&#xFF1A;&#x8BF8;&#x5982;queue&#x3001;&#x7EA2;&#x9ED1;&#x6811;&#x7B49;</p>
+</li>
+<li><p><code>&#x8FED;&#x4EE3;&#x5668;&#x9002;&#x914D;&#x5668;</code>&#xFF1A;&#x8BF8;&#x5982;insert adapters&#x3001;reverse adapter &#x3001;stream iterator&#x53EF;&#x4EE5;&#x5BF9;&#x5BB9;&#x5668;&#x7684;&#x884C;&#x4E3A;&#x8FDB;&#x884C;&#x4FEE;&#x6539;</p>
+</li>
+<li><p><code>&#x4EFF;&#x51FD;&#x6570;&#x9002;&#x914D;&#x5668;</code> &#xFF1A; &#x8BF8;&#x5982;bind&#x5BB6;&#x65CF;&#x7B49;&#xFF0C;&#x5BF9;&#x4EFF;&#x51FD;&#x6570;&#x7684;&#x8F93;&#x5165;&#x53C2;&#x6570;&#x8FDB;&#x884C;&#x53D6;&#x53CD;&#x7B49;&#x4FEE;&#x6539;</p>
+</li>
+</ul>
+<p><strong>&#x4EFF;&#x51FD;&#x6570;</strong>&#x5176;&#x5B9E;&#x4E5F;&#x662F;&#x5BF9;&#x901A;&#x8FC7;&#x6A21;&#x677F;&#x7684;&#x5F62;&#x5F0F;&#xFF0C;&#x5BF9;&#xFF08;&#xFF09;&#x64CD;&#x4F5C;&#x7B26;&#x91CD;&#x8F7D;&#xFF0C;&#x4E3A;&#x4EC0;&#x4E48;&#x8981;&#x8FD9;&#x4E48;&#x505A;&#x5462;&#xFF0C;&#x4E3B;&#x8981;&#x76EE;&#x7684;&#x662F;&#x4E3A;&#x4E86;&#x5728;&#x4E0D;&#x589E;&#x52A0;&#x4E00;&#x4E2A;&#x51FD;&#x6570;&#x4F20;&#x5165;&#x53C2;&#x6570;&#x7684;&#x60C5;&#x51B5;&#x4E0B;&#xFF0C;&#x5BF9;&#x51FD;&#x6570;&#x4E2D;&#x7684;&#x53D8;&#x91CF;&#x6709;&#x66F4;&#x591A;&#x7684;&#x4FDD;&#x5B58;/&#x63A7;&#x5236;&#xFF0C;&#x53EF;&#x4EE5;&#x901A;&#x8FC7;&#x5B9E;&#x4F8B;&#x5316;&#x4E00;&#x4E2A;&#x7C7B;&#x6A21;&#x677F;&#x6765;&#x624B;&#x52A8;&#x8BBE;&#x5B9A;&#x4EFF;&#x51FD;&#x6570;&#x4E2D;&#x67D0;&#x4E9B;&#x53C2;&#x6570;&#x7684;&#x503C;&#xFF0C;&#x800C;&#x4E0D;&#x518D;&#x9700;&#x8981;&#x901A;&#x8FC7;&#x51FD;&#x6570;&#x7684;&#x53C2;&#x6570;&#x4F20;&#x9012;&#x8FDB;&#x53BB;&#x3002;</p>
+<h2 id="LiteGNUStl&#x7ED3;&#x6784;"><a href="#LiteGNUStl&#x7ED3;&#x6784;" class="headerlink" title="LiteGNUStl&#x7ED3;&#x6784;"></a>LiteGNUStl&#x7ED3;&#x6784;</h2><h4 id="&#x6587;&#x4EF6;&#xFF08;&#x5DF2;&#x5B9E;&#x73B0;&#x90E8;&#x5206;&#xFF09;&#x5206;&#x5E03;"><a href="#&#x6587;&#x4EF6;&#xFF08;&#x5DF2;&#x5B9E;&#x73B0;&#x90E8;&#x5206;&#xFF09;&#x5206;&#x5E03;" class="headerlink" title="&#x6587;&#x4EF6;&#xFF08;&#x5DF2;&#x5B9E;&#x73B0;&#x90E8;&#x5206;&#xFF09;&#x5206;&#x5E03;"></a>&#x6587;&#x4EF6;&#xFF08;&#x5DF2;&#x5B9E;&#x73B0;&#x90E8;&#x5206;&#xFF09;&#x5206;&#x5E03;</h4><table>
+<thead>
+<tr>
+<th>&#x7EC4;&#x4EF6;</th>
+<th>&#x6587;&#x4EF6;</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>&#x8FED;&#x4EE3;&#x5668;</strong></td>
+<td><strong>iterator.h&#x3001;type_traits.h</strong></td>
+</tr>
+<tr>
+<td><strong>&#x5BB9;&#x5668;</strong></td>
+<td><strong>vector.h&#x3001;list.h</strong></td>
+</tr>
+<tr>
+<td><strong>&#x7B97;&#x6CD5;</strong></td>
+<td><strong>uninitialized.h</strong></td>
+</tr>
+<tr>
+<td><strong>&#x4EFF;&#x51FD;&#x6570;</strong></td>
+<td><strong>functional.h</strong></td>
+</tr>
+<tr>
+<td><strong>&#x5206;&#x914D;&#x5668;</strong></td>
+<td><strong>constructor.h</strong> <strong>allocator.h</strong></td>
+</tr>
+<tr>
+<td><strong>&#x9002;&#x914D;&#x5668;</strong></td>
+<td></td>
+</tr>
+</tbody></table>
+<h5 id="&#x5DE5;&#x5177;&#xFF1A;memory-h"><a href="#&#x5DE5;&#x5177;&#xFF1A;memory-h" class="headerlink" title="&#x5DE5;&#x5177;&#xFF1A;memory.h"></a>&#x5DE5;&#x5177;&#xFF1A;memory.h</h5><h5 id="TODO-list-h-vector-h-type-traits-h-memory-h-iterator-h-functional-h"><a href="#TODO-list-h-vector-h-type-traits-h-memory-h-iterator-h-functional-h" class="headerlink" title="TODO: list.h  vector.h  type_traits.h    memory.h    iterator.h    functional.h"></a>TODO: list.h  vector.h  type_traits.h    memory.h    iterator.h    functional.h</h5></div></section><ul class="post-copyright"><li class="post-copyright-author"><strong>本文作者：</strong>null</li><li class="post-copyright-link"><strong>本文链接：</strong><a href="https://liuganhuo.github.io/2023/05/11/%E6%A6%82%E8%BF%B0STL%E5%85%AD%E5%A4%A7%E7%BB%84%E4%BB%B6/" title="test">https://liuganhuo.github.io/2023/05/11/%E6%A6%82%E8%BF%B0STL%E5%85%AD%E5%A4%A7%E7%BB%84%E4%BB%B6/</a></li><li class="post-copyright-license"><strong>版权声明：</strong>本博客所有文章除特别声明外，均默认采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" target="_blank" rel="noopener" title="CC BY-NC-SA 4.0 "><span class="icon iconify" data-icon="ri:creative-commons-line"></span><span class="icon iconify" data-icon="ri:creative-commons-by-line"></span><span class="icon iconify" data-icon="ri:creative-commons-nc-line"></span><span class="icon iconify" data-icon="ri:creative-commons-sa-line"></span></a> 许可协议。</li></ul></article><div class="post-nav"><div class="post-nav-item"><a class="post-nav-prev" href="/2023/05/12/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E9%87%8D%E8%A6%81%E7%89%B9%E6%80%A7-%E9%9A%94%E7%A6%BB%E6%80%A7/" rel="prev" title="操作系统重要特性--隔离性"><span class="icon iconify" data-icon="ri:arrow-left-s-line"></span><span class="post-nav-text">操作系统重要特性--隔离性</span></a></div><div class="post-nav-item"></div></div></div><div class="hty-card" id="comment"></div></main><footer class="sidebar-translate" id="footer"><div class="copyright"><span>&copy; 2023 </span><span class="with-love" id="animate"><span class="icon iconify" data-icon="ri:cloud-line"></span></span><span class="author"> </span></div><div class="powered"><span>由 <a href="https://hexo.io" target="_blank" rel="noopener">Hexo</a> 驱动 v5.4.2</span><span class="footer-separator">|</span><span>主题 - <a rel="noopener" href="https://github.com/YunYouJun/hexo-theme-yun" target="_blank"><span>Yun</span></a> v1.10.9</span></div><div class="live-time"><span>本博客已运行</span><span id="display_live_time"></span><span class="moe-text">(●'◡'●)</span><script>function blog_live_time() {
+  setTimeout(blog_live_time, 1000);
+  const start = new Date('2023-05-11T00:00:00');
+  const now = new Date();
+  const timeDiff = (now.getTime() - start.getTime());
+  const msPerMinute = 60 * 1000;
+  const msPerHour = 60 * msPerMinute;
+  const msPerDay = 24 * msPerHour;
+  const passDay = Math.floor(timeDiff / msPerDay);
+  const passHour = Math.floor((timeDiff % msPerDay) / 60 / 60 / 1000);
+  const passMinute = Math.floor((timeDiff % msPerHour) / 60 / 1000);
+  const passSecond = Math.floor((timeDiff % msPerMinute) / 1000);
+  display_live_time.innerHTML = ` ${passDay} 天 ${passHour} 小时 ${passMinute} 分 ${passSecond} 秒`;
+}
+blog_live_time();
+</script></div></footer></div><a class="hty-icon-button" id="back-to-top" aria-label="back-to-top" href="#"><span class="icon iconify" data-icon="ri:arrow-up-s-line"></span><svg class="progress-circle-container" viewBox="0 0 100 100"><circle class="progress-circle" id="progressCircle" cx="50" cy="50" r="48" fill="none" stroke="#6200ee" stroke-width="2" stroke-linecap="round"></circle></svg></a><a class="popup-trigger hty-icon-button icon-search" id="search" href="javascript:;" title="搜索"><span class="site-state-item-icon"><span class="icon iconify" data-icon="ri:search-line"></span></span></a><script>window.addEventListener("DOMContentLoaded", () => {
+  // Handle and trigger popup window
+  document.querySelector(".popup-trigger").addEventListener("click", () => {
+    document.querySelector(".popup").classList.add("show");
+    setTimeout(() => {
+      document.querySelector(".search-input").focus();
+    }, 100);
+  });
+
+  // Monitor main search box
+  const onPopupClose = () => {
+    document.querySelector(".popup").classList.remove("show");
+  };
+
+  document.querySelector(".popup-btn-close").addEventListener("click", () => {
+    onPopupClose();
+  });
+
+  window.addEventListener("keyup", event => {
+    if (event.key === "Escape") {
+      onPopupClose();
+    }
+  });
+});
+</script><script src="https://fastly.jsdelivr.net/npm/hexo-generator-searchdb@1.4.0/dist/search.js"></script><script src="/js/search/local-search.js" defer type="module"></script><div class="popup search-popup"><div class="search-header"><span class="popup-btn-close close-icon hty-icon-button"><span class="icon iconify" data-icon="ri:close-line"></span></span></div><div class="search-input-container"><input class="search-input" id="local-search-input" type="text" placeholder="搜索..." value=""></div><div class="search-result-container"></div></div><script src="https://fastly.jsdelivr.net/npm/medium-zoom@1.0.6/dist/medium-zoom.min.js"></script><script>const images = [...document.querySelectorAll('.markdown-body img')]
+mediumZoom(images)</script><style>.medium-zoom-image {
+  z-index: 99;
+}</style><script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"/live2dw/assets/wanko.model.json"},"display":{"position":"right","width":200,"height":400},"mobile":{"show":true},"log":false});</script></body></html>

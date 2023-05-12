@@ -1,0 +1,168 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="theme-color" content="#6200ee"><meta name="author" content="null"><meta name="copyright"><meta name="generator" content="Hexo 5.4.2"><meta name="theme" content="hexo-theme-yun"><title>Hadoop基本概念 | 刘干活's bbblog</title><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@900&amp;display=swap" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://fastly.jsdelivr.net/npm/star-markdown-css@0.4.1/dist/yun/yun-markdown.min.css"><link rel="stylesheet" href="https://fastly.jsdelivr.net/npm/prism-theme-vars/base.css"><script src="https://fastly.jsdelivr.net/npm/scrollreveal/dist/scrollreveal.min.js" defer></script><script>function initScrollReveal() {
+  [".post-card",".markdown-body img"].forEach((target)=> {
+    ScrollReveal().reveal(target);
+  })
+}
+document.addEventListener("DOMContentLoaded", initScrollReveal);
+document.addEventListener("pjax:success", initScrollReveal);
+</script><link rel="icon" type="image/png" href="/images/favicon.ico"><link rel="mask-icon" href="/images/favicon.ico" color="#6200ee"><link rel="preload" href="/css/hexo-theme-yun.css" as="style"><link rel="prefetch" href="/js/sidebar.js" as="script"><link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin><link rel="preconnect" href="https://fastly.jsdelivr.net/npm/" crossorigin><script id="yun-config">
+    window.Yun = {}
+    window.CONFIG = {"hostname":"liuganhuo.github.io","root":"/","title":["什么","是","刘","干","活"],"version":"1.10.9","mode":"auto","copycode":true,"page":{"isPost":true},"i18n":{"placeholder":"搜索...","empty":"找不到您查询的内容: ${query}","hits":"找到 ${hits} 条结果","hits_time":"找到 ${hits} 条结果（用时 ${time} 毫秒）"},"anonymous_image":"https://cdn.yunyoujun.cn/img/avatar/none.jpg","say":{"api":"/data/sentences.json"},"local_search":{"path":"/search.xml"},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"fireworks":{"colors":null},"vendors":{"host":"https://fastly.jsdelivr.net/npm/","darken":"https://fastly.jsdelivr.net/npm/darken@1.5.0"}};
+  </script><link rel="stylesheet" href="/css/hexo-theme-yun.css"><script src="/js/hexo-theme-yun.js" type="module"></script><meta name="description" content="Hadoop&amp;#x57FA;&amp;#x672C;&amp;#x6982;&amp;#x5FF5;Hadoop&amp;#x662F;&amp;#x4E00;&amp;#x4E2A;&amp;#x5F00;&amp;#x6E90;&amp;#x6846;&amp;#x67B6;&amp;#xFF0C;&amp;#x53EF;&amp;#x7F16;&amp;#x5199;&amp;#x548C;&amp;#x8FD0;&amp;#x884C;&amp;#x5206;&amp;#x5E03;&amp;#x5F0F;&amp;#x5E94;&amp;#x7528;&amp;#x5">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Hadoop基本概念">
+<meta property="og:url" content="https://liuganhuo.github.io/2023/05/12/Hadoop%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5/index.html">
+<meta property="og:site_name" content="刘干活&#39;s bbblog">
+<meta property="og:description" content="Hadoop&amp;#x57FA;&amp;#x672C;&amp;#x6982;&amp;#x5FF5;Hadoop&amp;#x662F;&amp;#x4E00;&amp;#x4E2A;&amp;#x5F00;&amp;#x6E90;&amp;#x6846;&amp;#x67B6;&amp;#xFF0C;&amp;#x53EF;&amp;#x7F16;&amp;#x5199;&amp;#x548C;&amp;#x8FD0;&amp;#x884C;&amp;#x5206;&amp;#x5E03;&amp;#x5F0F;&amp;#x5E94;&amp;#x7528;&amp;#x5">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://liuganhuo.github.io/2023/05/12/Hadoop%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5/image-20230504161248598.png">
+<meta property="og:image" content="https://liuganhuo.github.io/2023/05/12/Hadoop%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5/image-20230409123913780.png">
+<meta property="og:image" content="https://liuganhuo.github.io/2023/05/12/Hadoop%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5/C:/Users/Lenovo/AppData/Roaming/Typora/typora-user-images/image-20230504162311447.png">
+<meta property="og:image" content="https://liuganhuo.github.io/2023/05/12/Hadoop%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5/image-20230504162401889.png">
+<meta property="og:image" content="https://liuganhuo.github.io/2023/05/12/Hadoop%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5/image-20230504161218521.png">
+<meta property="og:image" content="https://liuganhuo.github.io/2023/05/12/Hadoop%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5/image-20230504162219075.png">
+<meta property="og:image" content="https://liuganhuo.github.io/2023/05/12/Hadoop%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5/image-20230504162249583.png">
+<meta property="article:published_time" content="2023-05-12T06:51:39.000Z">
+<meta property="article:modified_time" content="2023-05-12T06:54:59.744Z">
+<meta property="article:tag" content="parallel-compute">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://liuganhuo.github.io/2023/05/12/Hadoop%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5/image-20230504161248598.png"><script>(function() {
+  if (CONFIG.mode !== 'auto') return
+  const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
+  const setting = localStorage.getItem('darken-mode') || 'auto'
+  if (setting === 'dark' || (prefersDark && setting !== 'light'))
+    document.documentElement.classList.toggle('dark', true)
+})()</script></head><body><script src="https://code.iconify.design/2/2.1.1/iconify.min.js"></script><script>// Define global variable
+IconifyProviders = {
+  // Empty prefix: overwrite default API provider configuration
+  '': {
+    // Use custom API first, use Iconify public API as backup
+    resources: [
+        'https://api.iconify.design',
+    ],
+    // Wait for 1 second before switching API hosts
+    rotate: 1000,
+  },
+};</script><script defer src="https://fastly.jsdelivr.net/npm/animejs@latest"></script><script defer src="/js/ui/fireworks.js" type="module"></script><canvas class="fireworks"></canvas><div class="container"><a class="sidebar-toggle hty-icon-button" id="menu-btn"><div class="hamburger hamburger--spin" type="button"><span class="hamburger-box"><span class="hamburger-inner"></span></span></div></a><div class="sidebar-toggle sidebar-overlay"></div><aside class="sidebar"><script src="/js/sidebar.js" type="module"></script><ul class="sidebar-nav"><li class="sidebar-nav-item sidebar-nav-toc hty-icon-button sidebar-nav-active" data-target="post-toc-wrap" title="文章目录"><span class="icon iconify" data-icon="ri:list-ordered"></span></li><li class="sidebar-nav-item sidebar-nav-overview hty-icon-button" data-target="site-overview-wrap" title="站点概览"><span class="icon iconify" data-icon="ri:passport-line"></span></li></ul><div class="sidebar-panel" id="site-overview-wrap"><div class="site-info fix-top"><a class="site-author-avatar" href="/about/"><img width="96" loading="lazy" src="/images/cattt.jpg"><span class="site-author-status" title="刘干活"></span></a><div class="site-author-name"><a href="/about/"></a></div><span class="site-name">刘干活's bbblog</span><sub class="site-subtitle"></sub><div class="site-description"></div></div><nav class="site-state"><a class="site-state-item hty-icon-button icon-home" href="/" title="首页"><span class="site-state-item-icon"><span class="icon iconify" data-icon="ri:home-4-line"></span></span></a><div class="site-state-item"><a href="/archives/" title="归档"><span class="site-state-item-icon"><span class="icon iconify" data-icon="ri:archive-line"></span></span><span class="site-state-item-count">13</span></a></div><div class="site-state-item"><a href="/category/"><span class="site-state-item-icon"><span class="icon iconify" data-icon="ri:folder-2-line"></span></span></a></div><div class="site-state-item"><a href="/tags/" title="标签"><span class="site-state-item-icon"><span class="icon iconify" data-icon="ri:price-tag-3-line"></span></span><span class="site-state-item-count">6</span></a></div><a class="site-state-item hty-icon-button" target="_blank" rel="noopener" href="https://yun.yunyoujun.cn" title="文档"><span class="site-state-item-icon"><span class="icon iconify" data-icon="ri:settings-line"></span></span></a></nav><hr style="margin-bottom:0.5rem"><hr style="margin:0.5rem 1rem"><div class="links"><a class="links-item hty-icon-button" href="/links/" title="我的小伙伴们" style="color:dodgerblue"><span class="icon iconify" data-icon="ri:genderless-line"></span></a></div><br><a class="links-item hty-icon-button" id="toggle-mode-btn" href="javascript:;" title="Mode" style="color: #f1cb64"><span class="icon iconify" data-icon="ri:contrast-2-line"></span></a></div><div class="sidebar-panel sidebar-panel-active" id="post-toc-wrap"><div class="post-toc"><div class="post-toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Hadoop%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5"><span class="toc-number">1.</span> <span class="toc-text">Hadoop基本概念</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#Hadoop%E6%98%AF%E4%B8%80%E4%B8%AA%E5%BC%80%E6%BA%90%E6%A1%86%E6%9E%B6%EF%BC%8C%E5%8F%AF%E7%BC%96%E5%86%99%E5%92%8C%E8%BF%90%E8%A1%8C%E5%88%86%E5%B8%83%E5%BC%8F%E5%BA%94%E7%94%A8%E5%A4%84%E7%90%86%E5%A4%A7%E8%A7%84%E6%A8%A1%E6%95%B0%E6%8D%AE%EF%BC%8C%E6%98%AF%E4%B8%80%E4%B8%AA%E5%88%86%E5%B8%83%E5%BC%8F%E8%AE%A1%E7%AE%97%E7%9A%84%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88%E3%80%82"><span class="toc-number">1.0.0.1.</span> <span class="toc-text">Hadoop是一个开源框架，可编写和运行分布式应用处理大规模数据，是一个分布式计算的解决方案。</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E4%B8%8E%E5%85%B6%E4%BB%96%E5%88%86%E5%B8%83%E5%BC%8F%E6%9E%B6%E6%9E%84%E7%9A%84%E7%9A%84%E4%B8%80%E4%B8%AA%E9%87%8D%E8%A6%81%E5%8C%BA%E5%88%86%EF%BC%9A%E4%BB%A3%E7%A0%81%E5%90%91%E6%95%B0%E6%8D%AE%E8%BF%81%E7%A7%BB%EF%BC%8C%E8%BF%99%E6%A0%B7%E5%8F%AF%E4%BB%A5%E7%9C%81%E5%8E%BB%E5%A4%A7%E9%87%8F%E6%95%B0%E6%8D%AE%E6%90%AC%E7%A7%BB"><span class="toc-number">1.0.0.2.</span> <span class="toc-text">与其他分布式架构的的一个重要区分：代码向数据迁移，这样可以省去大量数据搬移</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#MapReduce"><span class="toc-number">1.0.1.</span> <span class="toc-text">MapReduce</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%9E%B6%E6%9E%84"><span class="toc-number">1.0.1.1.</span> <span class="toc-text">架构</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%9F%BA%E6%9C%AC%E6%B5%81%E7%A8%8B"><span class="toc-number">1.0.1.2.</span> <span class="toc-text">基本流程</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#HDFS"><span class="toc-number">1.0.2.</span> <span class="toc-text">HDFS</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%9E%B6%E6%9E%84-1"><span class="toc-number">1.0.2.1.</span> <span class="toc-text">架构</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C"><span class="toc-number">1.0.2.2.</span> <span class="toc-text">基本操作</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%86%99%E5%85%A5%E6%B5%81%E7%A8%8B"><span class="toc-number">1.0.2.3.</span> <span class="toc-text">写入流程</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E8%AF%BB%E5%8F%96%E6%B5%81%E7%A8%8B"><span class="toc-number">1.0.2.4.</span> <span class="toc-text">读取流程</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Hadoop%E8%BF%90%E8%A1%8C%E6%A8%A1%E5%BC%8F"><span class="toc-number">1.0.3.</span> <span class="toc-text">Hadoop运行模式</span></a></li></ol></li></ol></li></ol></div></div></div></aside><main class="sidebar-translate" id="content"><div id="post"><article class="hty-card post-block" itemscope itemtype="https://schema.org/Article" style="--smc-primary:#6200ee;"><link itemprop="mainEntityOfPage" href="https://liuganhuo.github.io/2023/05/12/Hadoop%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5/"><span hidden itemprop="author" itemscope itemtype="https://schema.org/Person"><meta itemprop="name" content="null"><meta itemprop="description"></span><span hidden itemprop="publisher" itemscope itemtype="https://schema.org/Organization"><meta itemprop="name" content="刘干活's bbblog"></span><header class="post-header"><h1 class="post-title" itemprop="name headline">Hadoop基本概念</h1><div class="post-meta"><div class="post-time"><span class="post-meta-item-icon"><span class="icon iconify" data-icon="ri:calendar-line"></span></span> <time title="创建时间：2023-05-12 14:51:39" itemprop="dateCreated datePublished" datetime="2023-05-12T14:51:39+08:00">2023-05-12</time></div><div class="post-classify"><span class="post-tag"><a class="tag-item" href="/tags/parallel-compute/" style="--text-color:var(--hty-text-color)"><span class="post-meta-item-icon"><span class="icon iconify" data-icon="ri:price-tag-3-line"></span></span><span class="tag-name">parallel-compute</span></a></span></div></div></header><section class="post-body" itemprop="articleBody"><div class="post-content markdown-body"><h2 id="Hadoop&#x57FA;&#x672C;&#x6982;&#x5FF5;"><a href="#Hadoop&#x57FA;&#x672C;&#x6982;&#x5FF5;" class="headerlink" title="Hadoop&#x57FA;&#x672C;&#x6982;&#x5FF5;"></a>Hadoop&#x57FA;&#x672C;&#x6982;&#x5FF5;</h2><h5 id="Hadoop&#x662F;&#x4E00;&#x4E2A;&#x5F00;&#x6E90;&#x6846;&#x67B6;&#xFF0C;&#x53EF;&#x7F16;&#x5199;&#x548C;&#x8FD0;&#x884C;&#x5206;&#x5E03;&#x5F0F;&#x5E94;&#x7528;&#x5904;&#x7406;&#x5927;&#x89C4;&#x6A21;&#x6570;&#x636E;&#xFF0C;&#x662F;&#x4E00;&#x4E2A;&#x5206;&#x5E03;&#x5F0F;&#x8BA1;&#x7B97;&#x7684;&#x89E3;&#x51B3;&#x65B9;&#x6848;&#x3002;"><a href="#Hadoop&#x662F;&#x4E00;&#x4E2A;&#x5F00;&#x6E90;&#x6846;&#x67B6;&#xFF0C;&#x53EF;&#x7F16;&#x5199;&#x548C;&#x8FD0;&#x884C;&#x5206;&#x5E03;&#x5F0F;&#x5E94;&#x7528;&#x5904;&#x7406;&#x5927;&#x89C4;&#x6A21;&#x6570;&#x636E;&#xFF0C;&#x662F;&#x4E00;&#x4E2A;&#x5206;&#x5E03;&#x5F0F;&#x8BA1;&#x7B97;&#x7684;&#x89E3;&#x51B3;&#x65B9;&#x6848;&#x3002;" class="headerlink" title="Hadoop&#x662F;&#x4E00;&#x4E2A;&#x5F00;&#x6E90;&#x6846;&#x67B6;&#xFF0C;&#x53EF;&#x7F16;&#x5199;&#x548C;&#x8FD0;&#x884C;&#x5206;&#x5E03;&#x5F0F;&#x5E94;&#x7528;&#x5904;&#x7406;&#x5927;&#x89C4;&#x6A21;&#x6570;&#x636E;&#xFF0C;&#x662F;&#x4E00;&#x4E2A;&#x5206;&#x5E03;&#x5F0F;&#x8BA1;&#x7B97;&#x7684;&#x89E3;&#x51B3;&#x65B9;&#x6848;&#x3002;"></a>Hadoop&#x662F;&#x4E00;&#x4E2A;&#x5F00;&#x6E90;&#x6846;&#x67B6;&#xFF0C;&#x53EF;&#x7F16;&#x5199;&#x548C;&#x8FD0;&#x884C;&#x5206;&#x5E03;&#x5F0F;&#x5E94;&#x7528;&#x5904;&#x7406;&#x5927;&#x89C4;&#x6A21;&#x6570;&#x636E;&#xFF0C;&#x662F;&#x4E00;&#x4E2A;&#x5206;&#x5E03;&#x5F0F;&#x8BA1;&#x7B97;&#x7684;&#x89E3;&#x51B3;&#x65B9;&#x6848;&#x3002;</h5><h5 id="&#x4E0E;&#x5176;&#x4ED6;&#x5206;&#x5E03;&#x5F0F;&#x67B6;&#x6784;&#x7684;&#x7684;&#x4E00;&#x4E2A;&#x91CD;&#x8981;&#x533A;&#x5206;&#xFF1A;&#x4EE3;&#x7801;&#x5411;&#x6570;&#x636E;&#x8FC1;&#x79FB;&#xFF0C;&#x8FD9;&#x6837;&#x53EF;&#x4EE5;&#x7701;&#x53BB;&#x5927;&#x91CF;&#x6570;&#x636E;&#x642C;&#x79FB;"><a href="#&#x4E0E;&#x5176;&#x4ED6;&#x5206;&#x5E03;&#x5F0F;&#x67B6;&#x6784;&#x7684;&#x7684;&#x4E00;&#x4E2A;&#x91CD;&#x8981;&#x533A;&#x5206;&#xFF1A;&#x4EE3;&#x7801;&#x5411;&#x6570;&#x636E;&#x8FC1;&#x79FB;&#xFF0C;&#x8FD9;&#x6837;&#x53EF;&#x4EE5;&#x7701;&#x53BB;&#x5927;&#x91CF;&#x6570;&#x636E;&#x642C;&#x79FB;" class="headerlink" title="&#x4E0E;&#x5176;&#x4ED6;&#x5206;&#x5E03;&#x5F0F;&#x67B6;&#x6784;&#x7684;&#x7684;&#x4E00;&#x4E2A;&#x91CD;&#x8981;&#x533A;&#x5206;&#xFF1A;&#x4EE3;&#x7801;&#x5411;&#x6570;&#x636E;&#x8FC1;&#x79FB;&#xFF0C;&#x8FD9;&#x6837;&#x53EF;&#x4EE5;&#x7701;&#x53BB;&#x5927;&#x91CF;&#x6570;&#x636E;&#x642C;&#x79FB;"></a>&#x4E0E;&#x5176;&#x4ED6;&#x5206;&#x5E03;&#x5F0F;&#x67B6;&#x6784;&#x7684;&#x7684;&#x4E00;&#x4E2A;&#x91CD;&#x8981;&#x533A;&#x5206;&#xFF1A;&#x4EE3;&#x7801;&#x5411;&#x6570;&#x636E;&#x8FC1;&#x79FB;&#xFF0C;&#x8FD9;&#x6837;&#x53EF;&#x4EE5;&#x7701;&#x53BB;&#x5927;&#x91CF;&#x6570;&#x636E;&#x642C;&#x79FB;</h5><p>Hadoop&#x7684;&#x6838;&#x5FC3;&#x90E8;&#x4EF6;&#x662F;&#xFF1A;<strong>HDFS&#x548C;MapReduce</strong>,HDFS&#x4E3A;&#x6D77;&#x91CF;&#x7684;&#x6570;&#x636E;&#x63D0;&#x4F9B;&#x4E86;&#x5B58;&#x50A8;&#xFF0C;&#x5219;MapReduce&#x4E3A;&#x6D77;&#x91CF;&#x7684;&#x6570;&#x636E;&#x63D0;&#x4F9B;&#x4E86;&#x8BA1;&#x7B97;&#x3002;</p>
+<h4 id="MapReduce"><a href="#MapReduce" class="headerlink" title="MapReduce"></a>MapReduce</h4><ul>
+<li><p>&#x4E00;&#x4E2A;&#x6570;&#x636E;&#x5904;&#x7406;&#x6A21;&#x578B;,&#x662F;&#x4E00;&#x4E2A;&#x8BA1;&#x7B97;&#x6846;&#x67B6;</p>
+</li>
+<li><p>MapReduce&#x7684;&#x6838;&#x5FC3;&#x601D;&#x60F3;&#x662F;&#x628A;&#x8BA1;&#x7B97;&#x4EFB;&#x52A1;&#x5206;&#x914D;&#x7ED9;&#x96C6;&#x7FA4;&#x5185;&#x7684;&#x670D;&#x52A1;&#x5668;&#x91CC;&#x6267;&#x884C;</p>
+</li>
+<li><h5 id="&#x67B6;&#x6784;"><a href="#&#x67B6;&#x6784;" class="headerlink" title="&#x67B6;&#x6784;"></a>&#x67B6;&#x6784;</h5><ul>
+<li>&#x5728;mapping&#x9636;&#x6BB5;&#xFF0C;&#x83B7;&#x53D6;&#x8F93;&#x5165;&#x6570;&#x636E;&#xFF0C;&#x8FDB;&#x884C;&#x8FC7;&#x6EE4;&#x4E0E;&#x8F6C;&#x6362;</li>
+<li>&#x5728;reducing&#x9636;&#x6BB5;&#xFF0C;&#x5904;&#x7406;&#x6765;&#x81EA;mapper&#x7684;&#x6570;&#x636E;&#xFF0C;&#x8FDB;&#x884C;&#x805A;&#x5408;</li>
+<li><img src="/2023/05/12/Hadoop%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5/image-20230504161248598.png" alt="img" loading="lazy"></li>
+</ul>
+</li>
+<li><h5 id="&#x57FA;&#x672C;&#x6D41;&#x7A0B;"><a href="#&#x57FA;&#x672C;&#x6D41;&#x7A0B;" class="headerlink" title="&#x57FA;&#x672C;&#x6D41;&#x7A0B;"></a>&#x57FA;&#x672C;&#x6D41;&#x7A0B;</h5><ul>
+<li>&#x5411;MapReduce&#x6846;&#x67B6;&#x63D0;&#x4EA4;&#x4E00;&#x4E2A;&#x8BA1;&#x7B97;&#x4F5C;&#x4E1A;&#x65F6;&#xFF0C;&#x5B83;&#x4F1A;&#x9996;&#x5148;&#x628A;&#x8BA1;&#x7B97;&#x4F5C;&#x4E1A;&#x62C6;&#x5206;&#x6210;&#x82E5;&#x5E72;&#x4E2A;<strong>Map&#x4EFB;&#x52A1;</strong>&#xFF0C;&#x7136;&#x540E;&#x5206;&#x914D;&#x5230;&#x4E0D;&#x540C;&#x7684;&#x8282;&#x70B9;&#x4E0A;&#x53BB;&#x6267;&#x884C;&#xFF0C;&#x6BCF;&#x4E00;&#x4E2A;Map&#x4EFB;&#x52A1;&#x5904;&#x7406;&#x8F93;&#x5165;&#x6570;&#x636E;&#x4E2D;&#x7684;&#x4E00;&#x90E8;&#x5206;&#xFF0C;&#x5F53;Map&#x4EFB;&#x52A1;&#x5B8C;&#x6210;&#x540E;&#xFF0C;&#x5B83;&#x4F1A;&#x751F;&#x6210;&#x4E00;&#x4E9B;&#x4E2D;&#x95F4;&#x6587;&#x4EF6;&#xFF0C;&#x8FD9;&#x4E9B;&#x4E2D;&#x95F4;&#x6587;&#x4EF6;&#x5C06;&#x4F1A;&#x4F5C;&#x4E3A;<strong>Reduce&#x4EFB;&#x52A1;</strong>&#x7684;&#x8F93;&#x5165;&#x6570;&#x636E;&#x3002;Reduce&#x4EFB;&#x52A1;&#x7684;&#x4E3B;&#x8981;&#x76EE;&#x6807;&#x5C31;&#x662F;&#x628A;&#x524D;&#x9762;&#x82E5;&#x5E72;&#x4E2A;Map&#x7684;&#x8F93;&#x51FA;&#x6C47;&#x603B;&#x5230;&#x4E00;&#x8D77;&#x5E76;&#x8F93;&#x51FA;&#x3002;</li>
+<li><img src="/2023/05/12/Hadoop%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5/image-20230409123913780.png" alt="img" loading="lazy"></li>
+<li><img src="/2023/05/12/Hadoop%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5/C:\Users\Lenovo\AppData\Roaming\Typora\typora-user-images\image-20230504162311447.png" alt="image-20230504162311447" style="zoom:67%;" loading="lazy"></li>
+<li>&#x5B9E;&#x4F8B;&#xFF1A;&#x7EDF;&#x8BA1;&#x8BCD;&#x9891;<ul>
+<li>Hadoop&#x5C06;&#x8F93;&#x5165;&#x6570;&#x636E;&#x5207;&#x6210;&#x82E5;&#x5E72;&#x4E2A;&#x5206;&#x7247;&#xFF0C;&#x5E76;&#x5C06;&#x6BCF;&#x4E2A;split&#xFF08;&#x5206;&#x5272;&#xFF09;&#x4EA4;&#x7ED9;&#x4E00;&#x4E2A;map task&#xFF08;Map&#x4EFB;&#x52A1;&#xFF09;&#x5904;&#x7406;&#x3002;</li>
+<li>Mapping&#x4E4B;&#x540E;&#xFF0C;&#x76F8;&#x5F53;&#x4E8E;&#x5F97;&#x51FA;&#x8FD9;&#x4E2A;task&#x91CC;&#x9762;&#xFF0C;&#x6BCF;&#x4E2A;&#x8BCD;&#x4EE5;&#x53CA;&#x5B83;&#x51FA;&#x73B0;&#x7684;&#x6B21;&#x6570;&#x3002;</li>
+<li>shuffle&#xFF08;&#x62D6;&#x79FB;&#xFF09;&#x5C06;&#x76F8;&#x540C;&#x7684;&#x8BCD;&#x653E;&#x5728;&#x4E00;&#x8D77;&#xFF0C;&#x5E76;&#x5BF9;&#x5B83;&#x4EEC;&#x8FDB;&#x884C;&#x6392;&#x5E8F;&#xFF0C;&#x5206;&#x6210;&#x82E5;&#x5E72;&#x4E2A;&#x5206;&#x7247;&#x3002;</li>
+<li>&#x6839;&#x636E;&#x8FD9;&#x4E9B;&#x5206;&#x7247;&#xFF0C;&#x8FDB;&#x884C;reduce&#xFF08;&#x5F52;&#x7EA6;&#xFF09;</li>
+<li>&#x7EDF;&#x8BA1;&#x51FA;reduce task&#x7684;&#x7ED3;&#x679C;&#xFF0C;&#x8F93;&#x51FA;&#x5230;&#x6587;&#x4EF6;&#x3002;</li>
+<li><img src="/2023/05/12/Hadoop%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5/image-20230504162401889.png" alt="img" loading="lazy"></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h4 id="HDFS"><a href="#HDFS" class="headerlink" title="HDFS"></a>HDFS</h4><ul>
+<li><p>MapReduce&#x7684;&#x6838;&#x5FC3;&#x601D;&#x60F3;&#x662F;&#x628A;&#x8BA1;&#x7B97;&#x4EFB;&#x52A1;&#x5206;&#x914D;&#x7ED9;&#x96C6;&#x7FA4;&#x5185;&#x7684;&#x670D;&#x52A1;&#x5668;&#x91CC;&#x6267;&#x884C;</p>
+</li>
+<li><h5 id="&#x67B6;&#x6784;-1"><a href="#&#x67B6;&#x6784;-1" class="headerlink" title="&#x67B6;&#x6784;"></a>&#x67B6;&#x6784;</h5><ul>
+<li>NameNode&#xFF08;nn&#xFF09;&#xFF1A;&#x5B58;&#x50A8;&#x6587;&#x4EF6;&#x7684;&#x5143;&#x6570;&#x636E;&#xFF0C;&#x5982;&#x6587;&#x4EF6;&#x540D;&#xFF0C;&#x6587;&#x4EF6;&#x76EE;&#x5F55;&#x7ED3;&#x6784;&#xFF0C;&#x6587;&#x4EF6;&#x5C5E;&#x6027;&#xFF08;&#x751F;&#x6210;&#x65F6;&#x95F4;&#x3001;&#x526F;&#x672C;&#x6570;&#x3001;&#x6587;&#x4EF6;&#x6743;&#x9650;&#xFF09;&#xFF0C;&#x4EE5;&#x53CA;&#x6BCF;&#x4E2A;&#x6587;&#x4EF6;&#x7684;&#x5757;&#x5217;&#x8868;&#x548C;&#x5757;&#x6240;&#x5728;&#x7684;DataNode&#x7B49;</li>
+<li>DataNode(dn)&#xFF1A;&#x5728;&#x672C;&#x5730;&#x6587;&#x4EF6;&#x7CFB;&#x7EDF;&#x5B58;&#x50A8;&#x6587;&#x4EF6;&#x5757;&#x6570;&#x636E;&#xFF0C;&#x4EE5;&#x53CA;&#x5757;&#x6570;&#x636E;&#x7684;&#x6821;&#x9A8C;&#x548C;&#x3002;</li>
+<li>Secondarv NameNode(2nn)&#xFF1A;&#x6BCF;&#x9694;&#x4E00;&#x6BB5;&#x65F6;&#x95F4;&#x5BF9;NameNode&#x5143;&#x6570;&#x636E;&#x5907;&#x4EFD;&#x3002;</li>
+<li><img src="/2023/05/12/Hadoop%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5/image-20230504161218521.png" alt="img" loading="lazy"></li>
+</ul>
+</li>
+<li><h5 id="&#x57FA;&#x672C;&#x64CD;&#x4F5C;"><a href="#&#x57FA;&#x672C;&#x64CD;&#x4F5C;" class="headerlink" title="&#x57FA;&#x672C;&#x64CD;&#x4F5C;"></a>&#x57FA;&#x672C;&#x64CD;&#x4F5C;</h5><ul>
+<li><h5 id="&#x5199;&#x5165;&#x6D41;&#x7A0B;"><a href="#&#x5199;&#x5165;&#x6D41;&#x7A0B;" class="headerlink" title="&#x5199;&#x5165;&#x6D41;&#x7A0B;"></a>&#x5199;&#x5165;&#x6D41;&#x7A0B;</h5></li>
+<li><p>&#x7528;&#x6237;&#x5411;Client&#xFF08;&#x5BA2;&#x6237;&#x673A;&#xFF09;&#x63D0;&#x51FA;&#x8BF7;&#x6C42;&#x3002;&#x4F8B;&#x5982;&#xFF0C;&#x9700;&#x8981;&#x5199;&#x5165;200MB&#x7684;&#x6570;&#x636E;&#x3002;</p>
+</li>
+<li><p>Client&#x5236;&#x5B9A;&#x8BA1;&#x5212;&#xFF1A;&#x5C06;&#x6570;&#x636E;&#x6309;&#x7167;64MB&#x4E3A;&#x5757;&#xFF0C;&#x8FDB;&#x884C;&#x5207;&#x5272;&#xFF1B;&#x6240;&#x6709;&#x7684;&#x5757;&#x90FD;&#x4FDD;&#x5B58;&#x4E09;&#x4EFD;&#x3002;</p>
+</li>
+<li><p>Client&#x5C06;&#x5927;&#x6587;&#x4EF6;&#x5207;&#x5206;&#x6210;&#x5757;&#xFF08;block&#xFF09;&#x3002;</p>
+</li>
+<li><p>&#x9488;&#x5BF9;&#x7B2C;&#x4E00;&#x4E2A;&#x5757;&#xFF0C;Client&#x544A;&#x8BC9;NameNode&#xFF08;&#x4E3B;&#x63A7;&#x8282;&#x70B9;&#xFF09;&#xFF0C;&#x8BF7;&#x5E2E;&#x52A9;&#x6211;&#xFF0C;&#x5C06;64MB&#x7684;&#x5757;&#x590D;&#x5236;&#x4E09;&#x4EFD;&#x3002;</p>
+</li>
+<li><p>NameNode&#x544A;&#x8BC9;Client&#x4E09;&#x4E2A;DataNode&#xFF08;&#x6570;&#x636E;&#x8282;&#x70B9;&#xFF09;&#x7684;&#x5730;&#x5740;&#xFF0C;&#x5E76;&#x4E14;&#x5C06;&#x5B83;&#x4EEC;&#x6839;&#x636E;&#x5230;Client&#x7684;&#x8DDD;&#x79BB;&#xFF0C;&#x8FDB;&#x884C;&#x4E86;&#x6392;&#x5E8F;&#x3002;</p>
+</li>
+<li><p>Client&#x628A;&#x6570;&#x636E;&#x548C;&#x6E05;&#x5355;&#x53D1;&#x7ED9;&#x7B2C;&#x4E00;&#x4E2A;DataNode&#x3002;</p>
+</li>
+<li><p>&#x7B2C;&#x4E00;&#x4E2A;DataNode&#x5C06;&#x6570;&#x636E;&#x590D;&#x5236;&#x7ED9;&#x7B2C;&#x4E8C;&#x4E2A;DataNode&#x3002;</p>
+</li>
+<li><p>&#x7B2C;&#x4E8C;&#x4E2A;DataNode&#x5C06;&#x6570;&#x636E;&#x590D;&#x5236;&#x7ED9;&#x7B2C;&#x4E09;&#x4E2A;DataNode&#x3002;</p>
+</li>
+<li><p>&#x5982;&#x679C;&#x67D0;&#x4E00;&#x4E2A;&#x5757;&#x7684;&#x6240;&#x6709;&#x6570;&#x636E;&#x90FD;&#x5DF2;&#x5199;&#x5165;&#xFF0C;&#x5C31;&#x4F1A;&#x5411;NameNode&#x53CD;&#x9988;&#x5DF2;&#x5B8C;&#x6210;&#x3002;</p>
+</li>
+<li><p>&#x5BF9;&#x7B2C;&#x4E8C;&#x4E2A;Block&#xFF0C;&#x4E5F;&#x8FDB;&#x884C;&#x76F8;&#x540C;&#x7684;&#x64CD;&#x4F5C;&#x3002;</p>
+</li>
+<li><p>&#x6240;&#x6709;Block&#x90FD;&#x5B8C;&#x6210;&#x540E;&#xFF0C;&#x5173;&#x95ED;&#x6587;&#x4EF6;&#x3002;NameNode&#x4F1A;&#x5C06;&#x6570;&#x636E;&#x6301;&#x4E45;&#x5316;&#x5230;&#x78C1;&#x76D8;&#x4E0A;&#x3002;</p>
+</li>
+<li><p><img src="/2023/05/12/Hadoop%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5/image-20230504162219075.png" alt="img" loading="lazy"></p>
+</li>
+</ul>
+</li>
+<li><h5 id="&#x8BFB;&#x53D6;&#x6D41;&#x7A0B;"><a href="#&#x8BFB;&#x53D6;&#x6D41;&#x7A0B;" class="headerlink" title="&#x8BFB;&#x53D6;&#x6D41;&#x7A0B;"></a>&#x8BFB;&#x53D6;&#x6D41;&#x7A0B;</h5><ul>
+<li> &#x7528;&#x6237;&#x5411;Client&#x63D0;&#x51FA;&#x8BFB;&#x53D6;&#x8BF7;&#x6C42;&#x3002;</li>
+<li> Client&#x5411;NameNode&#x8BF7;&#x6C42;&#x8FD9;&#x4E2A;&#x6587;&#x4EF6;&#x7684;&#x6240;&#x6709;&#x4FE1;&#x606F;&#x3002;</li>
+<li> NameNode&#x5C06;&#x7ED9;Client&#x8FD9;&#x4E2A;&#x6587;&#x4EF6;&#x7684;&#x5757;&#x5217;&#x8868;&#xFF0C;&#x4EE5;&#x53CA;&#x5B58;&#x50A8;&#x5404;&#x4E2A;&#x5757;&#x7684;&#x6570;&#x636E;&#x8282;&#x70B9;&#x6E05;&#x5355;&#xFF08;&#x6309;&#x7167;&#x548C;&#x5BA2;&#x6237;&#x7AEF;&#x7684;&#x8DDD;&#x79BB;&#x6392;&#x5E8F;&#xFF09;&#x3002;</li>
+<li> Client&#x4ECE;&#x8DDD;&#x79BB;&#x6700;&#x8FD1;&#x7684;&#x6570;&#x636E;&#x8282;&#x70B9;&#x4E0B;&#x8F7D;&#x6240;&#x9700;&#x7684;&#x5757;&#x3002;</li>
+<li> <img src="/2023/05/12/Hadoop%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5/image-20230504162249583.png" alt="img" loading="lazy"></li>
+</ul>
+</li>
+</ul>
+<h4 id="Hadoop&#x8FD0;&#x884C;&#x6A21;&#x5F0F;"><a href="#Hadoop&#x8FD0;&#x884C;&#x6A21;&#x5F0F;" class="headerlink" title="Hadoop&#x8FD0;&#x884C;&#x6A21;&#x5F0F;"></a>Hadoop&#x8FD0;&#x884C;&#x6A21;&#x5F0F;</h4><ul>
+<li>&#x672C;&#x5730;&#x6A21;&#x5F0F;&#xFF1A;&#x5355;&#x673A;&#x8FD0;&#x884C;&#xFF0C;&#x53EA;&#x662F;&#x7528;&#x6765;&#x6F14;&#x793A;&#x4E00;&#x4E0B;&#x5B98;&#x65B9;&#x6848;&#x4F8B;&#x3002;</li>
+<li>&#x4F2A;&#x5206;&#x5E03;&#x5F0F;&#x6A21;&#x5F0F;&#xFF1A;&#x4E5F;&#x662F;&#x5355;&#x673A;&#x8FD0;&#x884C;&#xFF0C;&#x4F46;&#x662F;&#x5177;&#x5907;Hadoop&#x96C6;&#x7FA4;&#x7684;&#x6240;&#x6709;&#x529F;&#x80FD;&#xFF0C;&#x4E00;&#x53F0;&#x670D;&#x52A1;&#x5668;&#x6A21;&#x62DF;&#x4E00;&#x4E2A;&#x5206;&#x5E03;&#x5F0F;&#x7684;&#x73AF;&#x5883;&#x3002;</li>
+<li>&#x4F2A;&#x5206;&#x5E03;&#x5F0F;&#x6A21;&#x5F0F;&#xFF1A;&#x4E5F;&#x662F;&#x5355;&#x673A;&#x8FD0;&#x884C;&#xFF0C;&#x4F46;&#x662F;&#x5177;&#x5907;Hadoop&#x96C6;&#x7FA4;&#x7684;&#x6240;&#x6709;&#x529F;&#x80FD;&#xFF0C;&#x4E00;&#x53F0;&#x670D;&#x52A1;&#x5668;&#x6A21;&#x62DF;&#x4E00;&#x4E2A;&#x5206;&#x5E03;&#x5F0F;&#x7684;&#x73AF;&#x5883;&#x3002;</li>
+</ul>
+</div></section><ul class="post-copyright"><li class="post-copyright-author"><strong>本文作者：</strong>null</li><li class="post-copyright-link"><strong>本文链接：</strong><a href="https://liuganhuo.github.io/2023/05/12/Hadoop%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5/" title="Hadoop基本概念">https://liuganhuo.github.io/2023/05/12/Hadoop%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5/</a></li><li class="post-copyright-license"><strong>版权声明：</strong>本博客所有文章除特别声明外，均默认采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" target="_blank" rel="noopener" title="CC BY-NC-SA 4.0 "><span class="icon iconify" data-icon="ri:creative-commons-line"></span><span class="icon iconify" data-icon="ri:creative-commons-by-line"></span><span class="icon iconify" data-icon="ri:creative-commons-nc-line"></span><span class="icon iconify" data-icon="ri:creative-commons-sa-line"></span></a> 许可协议。</li></ul></article><div class="post-nav"><div class="post-nav-item"><a class="post-nav-prev" href="/2023/05/12/Windows%E4%B8%8B%E4%BD%BF%E7%94%A8GUDA%E9%85%8D%E7%BD%AEGPU%E5%B9%B6%E8%A1%8C%E7%8E%AF%E5%A2%83/" rel="prev" title="Windows下使用GUDA配置GPU并行环境"><span class="icon iconify" data-icon="ri:arrow-left-s-line"></span><span class="post-nav-text">Windows下使用GUDA配置GPU并行环境</span></a></div><div class="post-nav-item"><a class="post-nav-next" href="/2023/05/12/%E5%8D%8F%E7%A8%8B/" rel="next" title="协程"><span class="post-nav-text">协程</span><span class="icon iconify" data-icon="ri:arrow-right-s-line"></span></a></div></div></div><div class="hty-card" id="comment"></div></main><footer class="sidebar-translate" id="footer"><div class="copyright"><span>&copy; 2023 </span><span class="with-love" id="animate"><span class="icon iconify" data-icon="ri:cloud-line"></span></span><span class="author"> </span></div><div class="powered"><span>由 <a href="https://hexo.io" target="_blank" rel="noopener">Hexo</a> 驱动 v5.4.2</span><span class="footer-separator">|</span><span>主题 - <a rel="noopener" href="https://github.com/YunYouJun/hexo-theme-yun" target="_blank"><span>Yun</span></a> v1.10.9</span></div><div class="live-time"><span>本博客已运行</span><span id="display_live_time"></span><span class="moe-text">(●'◡'●)</span><script>function blog_live_time() {
+  setTimeout(blog_live_time, 1000);
+  const start = new Date('2023-05-11T00:00:00');
+  const now = new Date();
+  const timeDiff = (now.getTime() - start.getTime());
+  const msPerMinute = 60 * 1000;
+  const msPerHour = 60 * msPerMinute;
+  const msPerDay = 24 * msPerHour;
+  const passDay = Math.floor(timeDiff / msPerDay);
+  const passHour = Math.floor((timeDiff % msPerDay) / 60 / 60 / 1000);
+  const passMinute = Math.floor((timeDiff % msPerHour) / 60 / 1000);
+  const passSecond = Math.floor((timeDiff % msPerMinute) / 1000);
+  display_live_time.innerHTML = ` ${passDay} 天 ${passHour} 小时 ${passMinute} 分 ${passSecond} 秒`;
+}
+blog_live_time();
+</script></div></footer></div><a class="hty-icon-button" id="back-to-top" aria-label="back-to-top" href="#"><span class="icon iconify" data-icon="ri:arrow-up-s-line"></span><svg class="progress-circle-container" viewBox="0 0 100 100"><circle class="progress-circle" id="progressCircle" cx="50" cy="50" r="48" fill="none" stroke="#6200ee" stroke-width="2" stroke-linecap="round"></circle></svg></a><a class="popup-trigger hty-icon-button icon-search" id="search" href="javascript:;" title="搜索"><span class="site-state-item-icon"><span class="icon iconify" data-icon="ri:search-line"></span></span></a><script>window.addEventListener("DOMContentLoaded", () => {
+  // Handle and trigger popup window
+  document.querySelector(".popup-trigger").addEventListener("click", () => {
+    document.querySelector(".popup").classList.add("show");
+    setTimeout(() => {
+      document.querySelector(".search-input").focus();
+    }, 100);
+  });
+
+  // Monitor main search box
+  const onPopupClose = () => {
+    document.querySelector(".popup").classList.remove("show");
+  };
+
+  document.querySelector(".popup-btn-close").addEventListener("click", () => {
+    onPopupClose();
+  });
+
+  window.addEventListener("keyup", event => {
+    if (event.key === "Escape") {
+      onPopupClose();
+    }
+  });
+});
+</script><script src="https://fastly.jsdelivr.net/npm/hexo-generator-searchdb@1.4.0/dist/search.js"></script><script src="/js/search/local-search.js" defer type="module"></script><div class="popup search-popup"><div class="search-header"><span class="popup-btn-close close-icon hty-icon-button"><span class="icon iconify" data-icon="ri:close-line"></span></span></div><div class="search-input-container"><input class="search-input" id="local-search-input" type="text" placeholder="搜索..." value=""></div><div class="search-result-container"></div></div><script src="https://fastly.jsdelivr.net/npm/medium-zoom@1.0.6/dist/medium-zoom.min.js"></script><script>const images = [...document.querySelectorAll('.markdown-body img')]
+mediumZoom(images)</script><style>.medium-zoom-image {
+  z-index: 99;
+}</style><script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"/live2dw/assets/wanko.model.json"},"display":{"position":"right","width":200,"height":400},"mobile":{"show":true},"log":false});</script></body></html>
